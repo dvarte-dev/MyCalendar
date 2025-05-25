@@ -274,7 +274,6 @@ public class SchedulingService : ISchedulingService
             var meetingStartUtc = request.MeetingStartTime.Value.ToUniversalTime();
             var meetingEndUtc = request.MeetingEndTime.Value.ToUniversalTime();
             
-            // Check for existing meeting conflicts
             var conflictingMeetings = await _meetingRepository.GetOverlappingMeetingsAsync(
                 meetingStartUtc, 
                 meetingEndUtc, 
@@ -292,11 +291,9 @@ public class SchedulingService : ISchedulingService
                     .ToList()
             }).ToList();
             
-            // Check for working hours conflicts
             var workingHoursValidation = ValidateWorkingHours(participants, meetingStartUtc, meetingEndUtc);
             if (!workingHoursValidation.IsValid)
             {
-                // Add a virtual "conflict" for working hours violation
                 var meetingDate = meetingStartUtc.ToString("dd/MM/yyyy");
                 var meetingTimeRange = $"{meetingStartUtc:HH:mm} - {meetingEndUtc:HH:mm}";
                 

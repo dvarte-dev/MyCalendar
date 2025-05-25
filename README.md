@@ -75,7 +75,7 @@ dotnet run
 ```
 
 The application will be available at:
-- **API Documentation**: `https://localhost:5089/swagger`
+- **API Documentation**: `https://localhost:5089/`
 - **Interactive Demo**: `https://localhost:5089/demo`
 
 ## 🎯 Interactive Demo
