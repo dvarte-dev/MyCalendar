@@ -78,6 +78,33 @@ The application will be available at:
 - **API Documentation**: `https://localhost:5089/swagger`
 - **Interactive Demo**: `https://localhost:5089/demo`
 
+## 🎯 Interactive Demo
+
+The project includes a comprehensive web-based demo interface that showcases all system capabilities:
+
+### Demo Features
+- **👤 User Management**: Create and manage users with different timezones
+- **📅 Meeting Scheduling**: Schedule meetings with real-time conflict detection
+- **🔍 Conflict Analysis**: Analyze working hours overlap between participants
+- **📊 Calendar View**: Visual calendar with meeting display and timezone handling
+- **⚡ Real-time Testing**: Interactive API testing with immediate feedback
+
+### Demo Highlights
+- **Global Timezone Support**: Test with users from Japan, Brazil, USA, Europe, and more
+- **Conflict Detection**: See intelligent suggestions when scheduling conflicts occur
+- **Visual Calendar**: Week view showing meetings across different timezones
+- **Smart Suggestions**: Get optimal meeting times based on participant availability
+- **Request Logging**: Monitor all API calls and responses in real-time
+
+### Quick Demo Workflow
+1. **Start the application** and navigate to `/demo`
+2. **Create sample users** from different timezones using the "Create Sample Data" button
+3. **Schedule meetings** and observe conflict detection in action
+4. **View the calendar** to see meetings displayed in UTC with timezone context
+5. **Analyze conflicts** to understand working hours overlap between global participants
+
+The demo interface provides a complete testing environment without requiring external tools like Postman or curl.
+
 ## API Endpoints
 
 | Method | Endpoint | Description |
