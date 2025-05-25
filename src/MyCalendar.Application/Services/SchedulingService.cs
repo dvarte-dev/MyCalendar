@@ -379,7 +379,7 @@ public class SchedulingService : ISchedulingService
             result.HasOverlap = false;
             result.OverlapPeriod = "No overlap";
             result.OverlapDuration = "0 hours";
-            result.ParticipantLocalTimes.Add("❌ No common working hours between participants");
+            result.ParticipantLocalTimes.Add("<i class=\"fas fa-times-circle\" style=\"color: red;\"></i> No common working hours between participants");
         }
         else
         {
@@ -569,7 +569,7 @@ public class SchedulingService : ISchedulingService
     {
         var summary = new List<string>();
 
-        summary.Add($"📊 Analysis for {participants.Count} participant(s):");
+        summary.Add($"<i class=\"fas fa-chart-bar\" style=\"color: #333;\"></i> Analysis for {participants.Count} participant(s):");
         foreach (var p in response.Participants)
         {
             summary.Add($"   • {p.Name} ({p.TimeZone}): {p.UtcWorkingHours}");
@@ -577,7 +577,7 @@ public class SchedulingService : ISchedulingService
 
         if (response.WorkingHoursOverlap.HasOverlap)
         {
-            summary.Add($"\n✅ Overlap window: {response.WorkingHoursOverlap.OverlapPeriod} ({response.WorkingHoursOverlap.OverlapDuration})");
+            summary.Add($"\n<i class=\"fas fa-check-circle\" style=\"color: green;\"></i> Overlap window: {response.WorkingHoursOverlap.OverlapPeriod} ({response.WorkingHoursOverlap.OverlapDuration})");
             foreach (var localTime in response.WorkingHoursOverlap.ParticipantLocalTimes)
             {
                 summary.Add($"   • {localTime}");
@@ -595,28 +595,28 @@ public class SchedulingService : ISchedulingService
             
             if (workingHoursConflicts.Any() && meetingConflicts.Any())
             {
-                summary.Add($"\n⚠️ {workingHoursConflicts.Count} working hours conflict(s) and {meetingConflicts.Count} meeting conflict(s) found");
+                summary.Add($"\n<i class=\"fas fa-exclamation-triangle\" style=\"color: orange;\"></i> {workingHoursConflicts.Count} working hours conflict(s) and {meetingConflicts.Count} meeting conflict(s) found");
             }
             else if (workingHoursConflicts.Any())
             {
                 var conflict = workingHoursConflicts.First();
                 var meetingDate = conflict.StartTime.ToString("dd/MM/yyyy");
                 var meetingTimeRange = $"{conflict.StartTime:HH:mm} - {conflict.EndTime:HH:mm}";
-                summary.Add($"\n⚠️ Working hours conflict for {meetingTimeRange} on {meetingDate}");
+                summary.Add($"\n<i class=\"fas fa-exclamation-triangle\" style=\"color: orange;\"></i> Working hours conflict for {meetingTimeRange} on {meetingDate}");
             }
             else
             {
-                summary.Add($"\n⚠️ {meetingConflicts.Count} meeting conflict(s) found");
+                summary.Add($"\n<i class=\"fas fa-exclamation-triangle\" style=\"color: orange;\"></i> {meetingConflicts.Count} meeting conflict(s) found");
             }
         }
         else
         {
-            summary.Add("\n✅ No conflicts detected");
+            summary.Add("\n<i class=\"fas fa-check-circle\" style=\"color: green;\"></i> No conflicts detected");
         }
 
         if (response.SuggestedTimeSlots.Any())
         {
-            summary.Add($"\n🎯 {response.SuggestedTimeSlots.Count} suggested time slot(s):");
+            summary.Add($"\n<i class=\"fas fa-bullseye\" style=\"color: blue;\"></i> {response.SuggestedTimeSlots.Count} suggested time slot(s):");
             foreach (var suggestion in response.SuggestedTimeSlots)
             {
                 summary.Add($"   • {suggestion.UtcTimeRange} - {suggestion.Recommendation}");

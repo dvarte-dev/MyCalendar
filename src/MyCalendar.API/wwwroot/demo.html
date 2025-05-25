@@ -3,35 +3,37 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>📅 MyCalendar - Complete Demo</title>
+    <title>MyCalendar - Complete Demo</title>
     <script src="demo.js"></script>
     <link rel="stylesheet" href="demo.css">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
     <div class="container">
         <div class="header">
-            <h1>📅 MyCalendar API Complete Demo</h1>
+            <h1><i class="fas fa-calendar-alt"></i> MyCalendar API Complete Demo</h1>
             <p>Scheduling System with Conflict Detection - Complete Test</p>
-            <a href="/" class="api-docs-link">📚 View Complete Documentation (Swagger)</a>
+            <a href="/" class="api-docs-link"><i class="fas fa-book"></i> View Complete Documentation (Swagger)</a>
         </div>
 
         <div class="demo-section">
-            <h3>📊 Dashboard</h3>
+            <h3><i class="fas fa-chart-bar"></i> Dashboard</h3>
             <div class="quick-actions">
-                <button class="btn" onclick="loadDashboard()">🔄 Update Dashboard</button>
-                <button class="btn btn-secondary" onclick="createSampleData()">🎯 Create Sample Data</button>
-                <button class="btn btn-secondary" onclick="clearAllData()">🗑️ Clear All Data</button>
+                <button class="btn" onclick="loadDashboard()"><i class="fas fa-sync-alt"></i> Update Dashboard</button>
+                <button class="btn btn-secondary" onclick="createSampleData()"><i class="fas fa-bullseye"></i> Create Sample Data</button>
+                <button class="btn btn-secondary" onclick="clearAllData()"><i class="fas fa-trash"></i> Clear All Data</button>
             </div>
             <div id="dashboardStats" class="response-box" style="display:none;"></div>
         </div>
 
         <div class="grid">
             <div class="demo-section">
-                <h3>👤 Manage Users</h3>
+                <h3><i class="fas fa-users"></i> Manage Users</h3>
                 
                 <div class="quick-actions">
-                    <button class="btn" onclick="loadUsers()">🔄 Load Users</button>
-                    <button class="btn btn-secondary" onclick="createSampleUsers()">➕ Create Sample Users</button>
+                    <button class="btn" onclick="loadUsers()"><i class="fas fa-sync-alt"></i> Load Users</button>
+                    <button class="btn btn-secondary" onclick="createSampleUsers()"><i class="fas fa-plus"></i> Create Sample Users</button>
                 </div>
 
                 <div class="form-group">
@@ -84,7 +86,7 @@
                 </div>
                 
                 <div class="quick-actions">
-                    <button class="btn" onclick="createUser()">➕ Create User</button>
+                    <button class="btn" onclick="createUser()"><i class="fas fa-plus"></i> Create User</button>
                 </div>
                 
                 <div id="usersResponse" class="response-box" style="display:none;"></div>
@@ -95,7 +97,7 @@
             </div>
 
             <div class="demo-section">
-                <h3>📅 Schedule Meeting</h3>
+                <h3><i class="fas fa-calendar-plus"></i> Schedule Meeting</h3>
                 
                 <div class="form-group">
                     <label>Meeting Title:</label>
@@ -120,8 +122,8 @@
                 </div>
                 
                 <div class="quick-actions">
-                    <button class="btn" onclick="scheduleMeeting()">📅 Schedule Meeting</button>
-                    <button class="btn btn-secondary" onclick="analyzeConflicts()">🔍 Analyze Conflicts</button>
+                    <button class="btn" onclick="scheduleMeeting()"><i class="fas fa-calendar-check"></i> Schedule Meeting</button>
+                    <button class="btn btn-secondary" onclick="analyzeConflicts()"><i class="fas fa-search"></i> Analyze Conflicts</button>
                 </div>
                 
                 <div id="meetingResponse" class="response-box" style="display:none;"></div>
@@ -129,12 +131,12 @@
         </div>
 
         <div class="demo-section">
-            <h3>📅 Calendar View</h3>
+            <h3><i class="fas fa-calendar"></i> Calendar View</h3>
             <div class="quick-actions">
-                <button class="btn" onclick="loadCalendar()">🔄 Load Calendar</button>
-                <button class="btn btn-secondary" onclick="previousWeek()">⬅️ Previous Week</button>
-                <button class="btn btn-secondary" onclick="nextWeek()">➡️ Next Week</button>
-                <button class="btn btn-secondary" onclick="goToToday()">📍 Today</button>
+                <button class="btn" onclick="loadCalendar()"><i class="fas fa-sync-alt"></i> Load Calendar</button>
+                <button class="btn btn-secondary" onclick="previousWeek()"><i class="fas fa-chevron-left"></i> Previous Week</button>
+                <button class="btn btn-secondary" onclick="nextWeek()"><i class="fas fa-chevron-right"></i> Next Week</button>
+                <button class="btn btn-secondary" onclick="goToToday()"><i class="fas fa-map-marker-alt"></i> Today</button>
             </div>
             
             <div id="calendarContainer" class="calendar-container">
@@ -146,11 +148,11 @@
 
 
         <div class="demo-section">
-            <h3>📊 Request Logs</h3>
+            <h3><i class="fas fa-list-alt"></i> Request Logs</h3>
             <div class="quick-actions">
-                <button class="btn btn-secondary" onclick="clearLogs()">🗑️ Clear Logs</button>
-                <button class="btn btn-secondary" onclick="exportLogs()">💾 Export Logs</button>
-                <button class="btn btn-secondary" onclick="toggleAutoScroll()">📜 Auto-scroll</button>
+                <button class="btn btn-secondary" onclick="clearLogs()"><i class="fas fa-trash"></i> Clear Logs</button>
+                <button class="btn btn-secondary" onclick="exportLogs()"><i class="fas fa-download"></i> Export Logs</button>
+                <button class="btn btn-secondary" onclick="toggleAutoScroll()"><i class="fas fa-scroll"></i> Auto-scroll</button>
             </div>
             <div id="requestLogs" class="response-box">
                 Request logs will appear here...
@@ -161,7 +163,7 @@
     <div id="meetingModal" class="meeting-modal">
         <div class="meeting-modal-content">
             <div class="meeting-modal-header">
-                <h3 class="meeting-modal-title">📅 Meeting Details</h3>
+                <h3 class="meeting-modal-title"><i class="fas fa-calendar-alt"></i> Meeting Details</h3>
                 <button class="meeting-modal-close" onclick="closeMeetingModal()">&times;</button>
             </div>
             
@@ -169,7 +171,7 @@
             </div>
             
             <div class="meeting-modal-actions">
-                <button class="btn-delete-meeting" onclick="deleteMeetingFromModal()">🗑️ Delete Meeting</button>
+                <button class="btn-delete-meeting" onclick="deleteMeetingFromModal()"><i class="fas fa-trash"></i> Delete Meeting</button>
                 <button class="btn-close-modal" onclick="closeMeetingModal()">Close</button>
             </div>
         </div>

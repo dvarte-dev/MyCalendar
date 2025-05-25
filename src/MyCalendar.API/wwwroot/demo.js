@@ -126,9 +126,9 @@ async function makeRequest(method, url, data = null) {
 
 function logRequest(message, data) {
     const logs = document.getElementById('requestLogs');
-    logs.innerHTML += `\n🚀 ${message}`;
+    logs.innerHTML += `\n<i class="fas fa-rocket"></i> ${message}`;
     if (data) {
-        logs.innerHTML += `\n📤 Body: ${JSON.stringify(data, null, 2)}`;
+        logs.innerHTML += `\n<i class="fas fa-arrow-down"></i> Body: ${JSON.stringify(data, null, 2)}`;
     }
     if (autoScroll) {
     logs.scrollTop = logs.scrollHeight;
@@ -137,7 +137,7 @@ function logRequest(message, data) {
 
 function logResponse(status, data) {
     const logs = document.getElementById('requestLogs');
-    const statusIcon = status >= 200 && status < 300 ? '✅' : status === 409 ? '⚠️' : '❌';
+    const statusIcon = status >= 200 && status < 300 ? '<i class="fas fa-check-circle" style="color: green;"></i>' : status === 409 ? '<i class="fas fa-exclamation-triangle" style="color: orange;"></i>' : '<i class="fas fa-times-circle" style="color: red;"></i>';
     logs.innerHTML += `\n${statusIcon} Response [${status}]: ${JSON.stringify(data, null, 2)}\n${'='.repeat(50)}`;
     if (autoScroll) {
     logs.scrollTop = logs.scrollHeight;
@@ -146,7 +146,7 @@ function logResponse(status, data) {
 
 function logError(message) {
     const logs = document.getElementById('requestLogs');
-    logs.innerHTML += `\n❌ ${message}\n${'='.repeat(50)}`;
+    logs.innerHTML += `\n<i class="fas fa-times-circle" style="color: red;"></i> ${message}\n${'='.repeat(50)}`;
     if (autoScroll) {
     logs.scrollTop = logs.scrollHeight;
     }
@@ -177,19 +177,19 @@ function updateDashboardStats() {
         <div class="dashboard-stats">
             <div class="stat-card">
                 <div class="stat-number">${stats.totalUsers}</div>
-                <div class="stat-label">👤 Total Users</div>
+                <div class="stat-label"><i class="fas fa-users"></i> Total Users</div>
             </div>
             <div class="stat-card">
                 <div class="stat-number">${stats.totalMeetings}</div>
-                <div class="stat-label">📅 Total Meetings</div>
+                <div class="stat-label"><i class="fas fa-calendar-alt"></i> Total Meetings</div>
             </div>
             <div class="stat-card">
                 <div class="stat-number">${stats.conflictedMeetings}</div>
-                <div class="stat-label">⚠️ Conflicts</div>
+                <div class="stat-label"><i class="fas fa-exclamation-triangle"></i> Conflicts</div>
             </div>
             <div class="stat-card">
                 <div class="stat-number">${stats.upcomingMeetings}</div>
-                <div class="stat-label">🔮 Upcoming Meetings</div>
+                <div class="stat-label"><i class="fas fa-clock"></i> Upcoming Meetings</div>
             </div>
         </div>
     `;
@@ -257,8 +257,8 @@ function displayUsersList() {
     
     let tableHtml = `
         <h4>
-            👥 Users List
-            <button class="btn btn-secondary json-toggle-btn" onclick="toggleUsersJson()" id="jsonToggleBtn">📄 VIEW JSON</button>
+            <i class="fas fa-users"></i> Users List
+            <button class="btn btn-secondary json-toggle-btn" onclick="toggleUsersJson()" id="jsonToggleBtn"><i class="fas fa-file-code"></i> VIEW JSON</button>
         </h4>
         
         <div id="usersJsonView" style="display: none;">
@@ -302,12 +302,12 @@ function displayUsersList() {
                 <td>
                     ${isEditing ? 
                         `<div class="edit-actions">
-                            <button class="btn btn-save" onclick="saveUser('${user.id}')">💾</button>
-                            <button class="btn btn-cancel" onclick="cancelEdit()">❌</button>
+                            <button class="btn btn-save" onclick="saveUser('${user.id}')"><i class="fas fa-save"></i></button>
+                            <button class="btn btn-cancel" onclick="cancelEdit()"><i class="fas fa-times"></i></button>
                         </div>` :
                         `<div class="user-actions">
-                            <button class="btn btn-secondary" onclick="editUser('${user.id}')" title="Edit">✏️</button>
-                            <button class="btn btn-secondary" onclick="deleteUser('${user.id}')" title="Delete">🗑️</button>
+                            <button class="btn btn-secondary" onclick="editUser('${user.id}')" title="Edit"><i class="fas fa-edit"></i></button>
+                            <button class="btn btn-secondary" onclick="deleteUser('${user.id}')" title="Delete"><i class="fas fa-trash"></i></button>
                         </div>`
                     }
                 </td>
@@ -333,7 +333,7 @@ function toggleUsersJson() {
     if (jsonView.style.display === 'none') {
         jsonView.style.display = 'block';
         tableView.style.display = 'none';
-        toggleBtn.textContent = '📋 VIEW TABLE';
+        toggleBtn.innerHTML = '<i class="fas fa-table"></i> VIEW TABLE';
         
         const jsonPre = jsonView.querySelector('pre');
         if (jsonPre) {
@@ -342,7 +342,7 @@ function toggleUsersJson() {
     } else {
         jsonView.style.display = 'none';
         tableView.style.display = 'block';
-        toggleBtn.textContent = '📄 VIEW JSON';
+        toggleBtn.innerHTML = '<i class="fas fa-file-code"></i> VIEW JSON';
     }
 }
 
@@ -724,7 +724,7 @@ function renderCalendarHeader() {
     
     header.innerHTML = `
         <div class="calendar-title">
-            📅 Week of ${startStr} - ${endStr}
+            <i class="fas fa-calendar-week"></i> Week of ${startStr} - ${endStr}
         </div>
     `;
 }
@@ -801,7 +801,7 @@ function exportLogs() {
 function toggleAutoScroll() {
     autoScroll = !autoScroll;
     const button = event.target;
-    button.textContent = autoScroll ? '📜 Auto-scroll' : '📜 Manual-scroll';
+    button.innerHTML = autoScroll ? '<i class="fas fa-scroll"></i> Auto-scroll' : '<i class="fas fa-scroll"></i> Manual-scroll';
 }
 
 document.addEventListener('keydown', function(event) {
@@ -867,10 +867,10 @@ function displayConflictAnalysis(analysis) {
     
     let html = `
         <div style="font-family: monospace; white-space: pre-line; line-height: 1.6;">
-            <h4 style="color: #333; margin-bottom: 15px;">🔍 Conflict and Schedule Analysis</h4>
+            <h4 style="color: #333; margin-bottom: 15px;"><i class="fas fa-search"></i> Conflict and Schedule Analysis</h4>
             
             <div style="background: #f8f9fa; padding: 15px; border-radius: 8px; margin-bottom: 15px;">
-                <strong>📋 Summary:</strong>
+                <strong><i class="fas fa-clipboard-list"></i> Summary:</strong>
                 ${analysis.summary}
             </div>
     `;
@@ -878,7 +878,7 @@ function displayConflictAnalysis(analysis) {
     if (analysis.participants && analysis.participants.length > 0) {
         html += `
             <div style="background: #e3f2fd; padding: 15px; border-radius: 8px; margin-bottom: 15px;">
-                <strong>👥 Participants:</strong>
+                <strong><i class="fas fa-users"></i> Participants:</strong>
         `;
         
         analysis.participants.forEach(participant => {
@@ -898,7 +898,7 @@ function displayConflictAnalysis(analysis) {
     if (analysis.workingHoursOverlap) {
         const overlap = analysis.workingHoursOverlap;
         const bgColor = overlap.hasOverlap ? '#d4edda' : '#f8d7da';
-        const icon = overlap.hasOverlap ? '✅' : '❌';
+        const icon = overlap.hasOverlap ? '<i class="fas fa-check-circle" style="color: green;"></i>' : '<i class="fas fa-times-circle" style="color: red;"></i>';
         
         html += `
             <div style="background: ${bgColor}; padding: 15px; border-radius: 8px; margin-bottom: 15px;">
@@ -925,11 +925,11 @@ function displayConflictAnalysis(analysis) {
         
         let sectionTitle = '';
         if (workingHoursConflicts.length > 0 && meetingConflicts.length > 0) {
-            sectionTitle = `⚠️ Conflicts Found (${analysis.conflictingMeetings.length}):`;
+            sectionTitle = `<i class="fas fa-exclamation-triangle"></i> Conflicts Found (${analysis.conflictingMeetings.length}):`;
         } else if (workingHoursConflicts.length > 0) {
-            sectionTitle = `⚠️ Working Hours Conflicts (${workingHoursConflicts.length}):`;
+            sectionTitle = `<i class="fas fa-exclamation-triangle"></i> Working Hours Conflicts (${workingHoursConflicts.length}):`;
         } else {
-            sectionTitle = `⚠️ Meeting Conflicts (${meetingConflicts.length}):`;
+            sectionTitle = `<i class="fas fa-exclamation-triangle"></i> Meeting Conflicts (${meetingConflicts.length}):`;
         }
         
         html += `
@@ -956,7 +956,7 @@ function displayConflictAnalysis(analysis) {
     if (analysis.suggestedTimeSlots && analysis.suggestedTimeSlots.length > 0) {
         html += `
             <div style="background: #d1ecf1; padding: 15px; border-radius: 8px; margin-bottom: 15px;">
-                <strong>🎯 Suggested Time Slots (${analysis.suggestedTimeSlots.length}):</strong>
+                <strong><i class="fas fa-bullseye"></i> Suggested Time Slots (${analysis.suggestedTimeSlots.length}):</strong>
         `;
         
         analysis.suggestedTimeSlots.forEach((slot, index) => {
@@ -1019,29 +1019,29 @@ function showMeetingDetails(meetingId) {
     
     modalBody.innerHTML = `
         <div class="meeting-detail-item">
-            <span class="meeting-detail-label">📝 Meeting Name</span>
+            <span class="meeting-detail-label"><i class="fas fa-edit"></i> Meeting Name</span>
             <div class="meeting-detail-value">${meeting.title}</div>
         </div>
         
         <div class="meeting-detail-item">
-            <span class="meeting-detail-label">🕐 Start Time (UTC)</span>
+            <span class="meeting-detail-label"><i class="fas fa-clock"></i> Start Time (UTC)</span>
             <div class="meeting-detail-value">${startTimeStr}</div>
         </div>
         
         <div class="meeting-detail-item">
-            <span class="meeting-detail-label">🕑 End Time (UTC)</span>
+            <span class="meeting-detail-label"><i class="fas fa-clock"></i> End Time (UTC)</span>
             <div class="meeting-detail-value">${endTimeStr}</div>
         </div>
         
         <div class="meeting-detail-item">
-                            <span class="meeting-detail-label">👥 Participants</span>
+                            <span class="meeting-detail-label"><i class="fas fa-users"></i> Participants</span>
             <div class="meeting-detail-value">
                 ${participantsHtml}
             </div>
         </div>
         
         <div class="meeting-detail-item">
-            <span class="meeting-detail-label">🆔 Meeting ID</span>
+            <span class="meeting-detail-label"><i class="fas fa-id-card"></i> Meeting ID</span>
             <div class="meeting-detail-value" style="font-family: monospace; font-size: 12px;">${meeting.id}</div>
         </div>
     `;
@@ -1074,7 +1074,7 @@ async function deleteMeetingFromModal() {
         if (result.status === 204) {
             currentMeetings = currentMeetings.filter(m => m.id !== selectedMeeting.id);
             closeMeetingModal();
-            alert(`✅ Meeting "${meetingTitle}" deleted successfully!`);
+            alert(`<i class="fas fa-check-circle" style="color: green;"></i> Meeting "${meetingTitle}" deleted successfully!`);
             
             logRequest(`Meeting "${meetingTitle}" deleted successfully`, null);
             
@@ -1091,7 +1091,7 @@ async function deleteMeetingFromModal() {
         
     } catch (error) {
         console.error('Error deleting meeting:', error);
-        alert(`❌ Error deleting meeting: ${error.message}`);
+        alert(`<i class="fas fa-times-circle" style="color: red;"></i> Error deleting meeting: ${error.message}`);
         logError('Error deleting meeting: ' + error.message);
     }
 }
