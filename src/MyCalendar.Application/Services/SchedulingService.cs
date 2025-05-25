@@ -274,6 +274,7 @@ public class SchedulingService : ISchedulingService
             var meetingStartUtc = request.MeetingStartTime.Value.ToUniversalTime();
             var meetingEndUtc = request.MeetingEndTime.Value.ToUniversalTime();
             
+            // Check for existing meeting conflicts
             var conflictingMeetings = await _meetingRepository.GetOverlappingMeetingsAsync(
                 meetingStartUtc, 
                 meetingEndUtc, 
@@ -290,6 +291,24 @@ public class SchedulingService : ISchedulingService
                     .Select(p => $"{p.Name} ({p.TimeZone})")
                     .ToList()
             }).ToList();
+            
+            // Check for working hours conflicts
+            var workingHoursValidation = ValidateWorkingHours(participants, meetingStartUtc, meetingEndUtc);
+            if (!workingHoursValidation.IsValid)
+            {
+                // Add a virtual "conflict" for working hours violation
+                var meetingDate = meetingStartUtc.ToString("dd/MM/yyyy");
+                var meetingTimeRange = $"{meetingStartUtc:HH:mm} - {meetingEndUtc:HH:mm}";
+                
+                response.ConflictingMeetings.Add(new ConflictingMeetingDto
+                {
+                    Id = Guid.Empty,
+                    Title = $"Working Hours Conflict for {meetingTimeRange} on {meetingDate}",
+                    StartTime = meetingStartUtc,
+                    EndTime = meetingEndUtc,
+                    ConflictingParticipants = new List<string> { workingHoursValidation.Message }
+                });
+            }
         }
         else
         {
@@ -319,7 +338,7 @@ public class SchedulingService : ISchedulingService
             string utcWorkingHoursDisplay;
             if (workingHours.crossesMidnight)
             {
-                utcWorkingHoursDisplay = $"{workingHours.start:hh\\:mm} - 00:00 + 00:00 - {workingHours.end:hh\\:mm} UTC (cruza meia-noite)";
+                utcWorkingHoursDisplay = $"{workingHours.start:hh\\:mm} - 00:00 + 00:00 - {workingHours.end:hh\\:mm} UTC (crosses midnight)";
             }
             else
             {
@@ -349,7 +368,7 @@ public class SchedulingService : ISchedulingService
         {
             result.HasOverlap = true;
             result.OverlapPeriod = "08:00 - 18:00 UTC";
-            result.OverlapDuration = "10 horas";
+            result.OverlapDuration = "10 hours";
             return result;
         }
 
@@ -571,11 +590,28 @@ public class SchedulingService : ISchedulingService
 
         if (response.HasConflicts)
         {
-            summary.Add($"\n⚠️ {response.ConflictingMeetings.Count} conflicting meeting(s) found");
+            var workingHoursConflicts = response.ConflictingMeetings.Where(m => m.Title.Contains("Working Hours Conflict")).ToList();
+            var meetingConflicts = response.ConflictingMeetings.Where(m => !m.Title.Contains("Working Hours Conflict")).ToList();
+            
+            if (workingHoursConflicts.Any() && meetingConflicts.Any())
+            {
+                summary.Add($"\n⚠️ {workingHoursConflicts.Count} working hours conflict(s) and {meetingConflicts.Count} meeting conflict(s) found");
+            }
+            else if (workingHoursConflicts.Any())
+            {
+                var conflict = workingHoursConflicts.First();
+                var meetingDate = conflict.StartTime.ToString("dd/MM/yyyy");
+                var meetingTimeRange = $"{conflict.StartTime:HH:mm} - {conflict.EndTime:HH:mm}";
+                summary.Add($"\n⚠️ Working hours conflict for {meetingTimeRange} on {meetingDate}");
+            }
+            else
+            {
+                summary.Add($"\n⚠️ {meetingConflicts.Count} meeting conflict(s) found");
+            }
         }
         else
         {
-            summary.Add("\n✅ No meeting conflicts detected");
+            summary.Add("\n✅ No conflicts detected");
         }
 
         if (response.SuggestedTimeSlots.Any())
@@ -718,7 +754,6 @@ public class SchedulingService : ISchedulingService
             {
                 if (normalStart <= crosser.end)
                 {
-                    normalStart = normalStart;
                     normalEnd = TimeSpan.FromTicks(Math.Min(normalEnd.Ticks, crosser.end.Ticks));
                 }
                 else
@@ -752,10 +787,10 @@ public class SchedulingService : ISchedulingService
     {
         try
         {
-            var utcDateTime = DateTime.SpecifyKind(localTime, DateTimeKind.Utc);
+            var localDateTime = DateTime.SpecifyKind(localTime, DateTimeKind.Unspecified);
             var offset = ParseTimezoneOffset(userTimeZone);
             
-            return utcDateTime.Subtract(offset);
+            return localDateTime.Subtract(offset);
         }
         catch
         {

@@ -119,7 +119,7 @@ async function makeRequest(method, url, data = null) {
         return { status: response.status, data: responseData };
         
     } catch (error) {
-        logError('Erro de conexão: ' + error.message);
+        logError('Connection error: ' + error.message);
         return { status: 0, error: error.message };
     }
 }
@@ -177,19 +177,19 @@ function updateDashboardStats() {
         <div class="dashboard-stats">
             <div class="stat-card">
                 <div class="stat-number">${stats.totalUsers}</div>
-                <div class="stat-label">👤 Total de Usuários</div>
+                <div class="stat-label">👤 Total Users</div>
             </div>
             <div class="stat-card">
                 <div class="stat-number">${stats.totalMeetings}</div>
-                <div class="stat-label">📅 Total de Reuniões</div>
+                <div class="stat-label">📅 Total Meetings</div>
             </div>
             <div class="stat-card">
                 <div class="stat-number">${stats.conflictedMeetings}</div>
-                <div class="stat-label">⚠️ Conflitos</div>
+                <div class="stat-label">⚠️ Conflicts</div>
             </div>
             <div class="stat-card">
                 <div class="stat-number">${stats.upcomingMeetings}</div>
-                <div class="stat-label">🔮 Próximas Reuniões</div>
+                <div class="stat-label">🔮 Upcoming Meetings</div>
             </div>
         </div>
     `;
@@ -204,7 +204,7 @@ async function createUser() {
     const timeZone = document.getElementById('userTimezone').value;
     
     if (!name) {
-        alert('Por favor, insira um nome');
+        alert('Please enter a name');
         return;
     }
     
@@ -257,8 +257,8 @@ function displayUsersList() {
     
     let tableHtml = `
         <h4>
-            👥 Lista de Usuários
-            <button class="btn btn-secondary json-toggle-btn" onclick="toggleUsersJson()" id="jsonToggleBtn">📄 VER JSON</button>
+            👥 Users List
+            <button class="btn btn-secondary json-toggle-btn" onclick="toggleUsersJson()" id="jsonToggleBtn">📄 VIEW JSON</button>
         </h4>
         
         <div id="usersJsonView" style="display: none;">
@@ -269,10 +269,10 @@ function displayUsersList() {
             <table class="users-table">
                 <thead>
                     <tr>
-                        <th>Nome</th>
+                        <th>Name</th>
                         <th>Timezone</th>
                         <th>ID</th>
-                        <th>Ações</th>
+                        <th>Actions</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -306,8 +306,8 @@ function displayUsersList() {
                             <button class="btn btn-cancel" onclick="cancelEdit()">❌</button>
                         </div>` :
                         `<div class="user-actions">
-                            <button class="btn btn-secondary" onclick="editUser('${user.id}')" title="Editar">✏️</button>
-                            <button class="btn btn-secondary" onclick="deleteUser('${user.id}')" title="Excluir">🗑️</button>
+                            <button class="btn btn-secondary" onclick="editUser('${user.id}')" title="Edit">✏️</button>
+                            <button class="btn btn-secondary" onclick="deleteUser('${user.id}')" title="Delete">🗑️</button>
                         </div>`
                     }
                 </td>
@@ -333,7 +333,7 @@ function toggleUsersJson() {
     if (jsonView.style.display === 'none') {
         jsonView.style.display = 'block';
         tableView.style.display = 'none';
-        toggleBtn.textContent = '📋 VER TABELA';
+        toggleBtn.textContent = '📋 VIEW TABLE';
         
         const jsonPre = jsonView.querySelector('pre');
         if (jsonPre) {
@@ -342,7 +342,7 @@ function toggleUsersJson() {
     } else {
         jsonView.style.display = 'none';
         tableView.style.display = 'block';
-        toggleBtn.textContent = '📄 VER JSON';
+        toggleBtn.textContent = '📄 VIEW JSON';
     }
 }
 
@@ -366,7 +366,7 @@ async function saveUser(userId) {
     const timezoneSelect = document.getElementById(`edit-timezone-${userId}`);
     
     if (!nameInput || !timezoneSelect) {
-        alert('Erro ao obter dados do formulário');
+        alert('Error getting form data');
         return;
     }
     
@@ -374,7 +374,7 @@ async function saveUser(userId) {
     const newTimezone = timezoneSelect.value;
     
     if (!newName) {
-        alert('Nome não pode estar vazio');
+        alert('Name cannot be empty');
         nameInput.focus();
         return;
     }
@@ -407,11 +407,11 @@ async function saveUser(userId) {
             }
             
         } else {
-            throw new Error(`Erro ${result.status}: ${result.data?.message || 'Falha ao atualizar usuário'}`);
+            throw new Error(`Error ${result.status}: ${result.data?.message || 'Failed to update user'}`);
         }
         
     } catch (error) {
-        alert('Erro ao salvar: ' + error.message);
+        alert('Error saving: ' + error.message);
         
         if (row) {
             row.style.opacity = '1';
@@ -439,7 +439,7 @@ function selectUser(id, name, timeZone) {
 
 async function updateSelectedUser() {
     if (!selectedUserId) {
-        alert('Selecione um usuário primeiro clicando na linha da tabela');
+        alert('Select a user first by clicking on the table row');
         return;
     }
     
@@ -448,7 +448,7 @@ async function updateSelectedUser() {
 
 async function deleteSelectedUser() {
     if (!selectedUserId) {
-        alert('Selecione um usuário primeiro clicando na linha da tabela');
+        alert('Select a user first by clicking on the table row');
         return;
     }
     
@@ -457,9 +457,9 @@ async function deleteSelectedUser() {
 
 async function deleteUser(userId) {
     const user = currentUsers.find(u => u.id === userId);
-    const userName = user ? user.name : 'usuário';
+    const userName = user ? user.name : 'user';
     
-    if (!confirm(`Tem certeza que deseja excluir o usuário "${userName}"?`)) {
+    if (!confirm(`Are you sure you want to delete the user "${userName}"?`)) {
         return;
     }
     
@@ -494,11 +494,11 @@ async function deleteUser(userId) {
             }
             
         } else {
-            throw new Error(`Erro ${result.status}: ${result.data?.message || 'Falha ao excluir usuário'}`);
+            throw new Error(`Error ${result.status}: ${result.data?.message || 'Failed to delete user'}`);
         }
         
     } catch (error) {
-        alert('Erro ao excluir: ' + error.message);
+        alert('Error deleting: ' + error.message);
         
         if (row) {
             row.style.opacity = '1';
@@ -535,7 +535,7 @@ function updateParticipantsSelector() {
     const selector = document.getElementById('participantsSelector');
     
     if (currentUsers.length === 0) {
-        selector.innerHTML = '<p>Carregue os usuários primeiro para selecionar participantes</p>';
+        selector.innerHTML = '<p>Load users first to select participants</p>';
         return;
     }
     
@@ -565,7 +565,7 @@ async function scheduleMeeting() {
     const participantIds = getSelectedParticipants();
     
     if (!title || !startTime || !endTime || participantIds.length === 0) {
-        alert('Por favor, preencha todos os campos e selecione pelo menos um participante');
+        alert('Please fill in all fields and select at least one participant');
         return;
     }
     
@@ -593,7 +593,7 @@ async function findAvailableSlots() {
     const participantIds = getSelectedParticipants();
     
     if (participantIds.length === 0) {
-        alert('Por favor, selecione pelo menos um participante');
+        alert('Please select at least one participant');
         return;
     }
     
@@ -619,12 +619,12 @@ async function loadMeetings() {
             currentMeetings = result.data || [];
             return currentMeetings;
         } else {
-            console.error('Erro ao carregar reuniões:', result);
+            console.error('Error loading meetings:', result);
             currentMeetings = [];
             return [];
         }
     } catch (error) {
-        console.error('Erro ao carregar reuniões:', error);
+        console.error('Error loading meetings:', error);
         currentMeetings = [];
         return [];
     }
@@ -645,7 +645,7 @@ function getMeetingsForSlot(cellDate) {
 
 function renderCalendarGrid() {
     const grid = document.getElementById('calendarGrid');
-    const days = ['Hora', 'Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado', 'Domingo'];
+    const days = ['Time', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
     
     let html = '';
     
@@ -670,7 +670,7 @@ function renderCalendarGrid() {
                 const meeting = meetings[0];
                 const hasConflict = checkMeetingConflict(meeting, meetings);
                 const colorClass = hasConflict ? 'conflict' : getMeetingColor(meeting.id);
-                const participantNames = meeting.participants?.map(p => p.name).join(', ') || 'Sem participantes';
+                const participantNames = meeting.participants?.map(p => p.name).join(', ') || 'No participants';
                 
                 const meetingStartUtc = new Date(meeting.startTime);
                 const meetingEndUtc = new Date(meeting.endTime);
@@ -679,7 +679,7 @@ function renderCalendarGrid() {
                 
                 html += `<div class="calendar-meeting ${colorClass}" 
                             onclick="showMeetingDetails('${meeting.id}')"
-                            title="${meeting.title}\n${startTimeUtc} - ${endTimeUtc} UTC\nParticipantes: ${participantNames}">
+                            title="${meeting.title}\n${startTimeUtc} - ${endTimeUtc} UTC\nParticipants: ${participantNames}">
                             ${meeting.title}
                          </div>`;
                 
@@ -719,12 +719,12 @@ function renderCalendarHeader() {
     weekEnd.setDate(weekEnd.getDate() + 6);
     
     const options = { year: 'numeric', month: 'long', day: 'numeric' };
-    const startStr = weekStart.toLocaleDateString('pt-BR', options);
-    const endStr = weekEnd.toLocaleDateString('pt-BR', options);
+    const startStr = weekStart.toLocaleDateString('en-US', options);
+    const endStr = weekEnd.toLocaleDateString('en-US', options);
     
     header.innerHTML = `
         <div class="calendar-title">
-            📅 Semana de ${startStr} - ${endStr}
+            📅 Week of ${startStr} - ${endStr}
         </div>
     `;
 }
@@ -757,7 +757,7 @@ async function createSampleData() {
         endTime.setHours(15, 0, 0, 0);
         
         await makeRequest('POST', `${API_BASE}/Meetings/schedule`, {
-            title: 'Reunião de Exemplo',
+            title: 'Sample Meeting',
             startTime: tomorrow.toISOString(),
             endTime: endTime.toISOString(),
             participantIds: [currentUsers[0].id, currentUsers[1].id]
@@ -769,7 +769,7 @@ async function createSampleData() {
 }
 
 async function clearAllData() {
-    if (!confirm('Tem certeza que deseja excluir todos os dados?')) {
+    if (!confirm('Are you sure you want to delete all data?')) {
         return;
     }
     
@@ -783,7 +783,7 @@ async function clearAllData() {
 }
 
 function clearLogs() {
-    document.getElementById('requestLogs').innerHTML = 'Logs de requisições aparecerão aqui...';
+    document.getElementById('requestLogs').innerHTML = 'Request logs will appear here...';
     requestCounter = 0;
 }   
 
@@ -820,7 +820,7 @@ async function analyzeConflicts() {
     const participantIds = getSelectedParticipants();
     
     if (participantIds.length === 0) {
-        alert('Por favor, selecione pelo menos um participante para análise');
+        alert('Please select at least one participant for analysis');
         return;
     }
     
@@ -867,10 +867,10 @@ function displayConflictAnalysis(analysis) {
     
     let html = `
         <div style="font-family: monospace; white-space: pre-line; line-height: 1.6;">
-            <h4 style="color: #333; margin-bottom: 15px;">🔍 Análise de Conflitos e Horários</h4>
+            <h4 style="color: #333; margin-bottom: 15px;">🔍 Conflict and Schedule Analysis</h4>
             
             <div style="background: #f8f9fa; padding: 15px; border-radius: 8px; margin-bottom: 15px;">
-                <strong>📋 Resumo:</strong>
+                <strong>📋 Summary:</strong>
                 ${analysis.summary}
             </div>
     `;
@@ -878,16 +878,16 @@ function displayConflictAnalysis(analysis) {
     if (analysis.participants && analysis.participants.length > 0) {
         html += `
             <div style="background: #e3f2fd; padding: 15px; border-radius: 8px; margin-bottom: 15px;">
-                <strong>👥 Participantes:</strong>
+                <strong>👥 Participants:</strong>
         `;
         
         analysis.participants.forEach(participant => {
             html += `
                 <div style="margin: 8px 0; padding: 8px; background: white; border-radius: 4px;">
                     <strong>${participant.name}</strong> (${participant.timeZone})
-                    <br>• Horário local: ${participant.localWorkingHours}
-                    <br>• Horário UTC: ${participant.utcWorkingHours}
-                    <br>• Reuniões no período: ${participant.totalMeetings}
+                    <br>• Local time: ${participant.localWorkingHours}
+                    <br>• UTC time: ${participant.utcWorkingHours}
+                    <br>• Meetings in period: ${participant.totalMeetings}
                 </div>
             `;
         });
@@ -902,15 +902,15 @@ function displayConflictAnalysis(analysis) {
         
         html += `
             <div style="background: ${bgColor}; padding: 15px; border-radius: 8px; margin-bottom: 15px;">
-                <strong>${icon} Sobreposição de Horários Comerciais:</strong>
+                <strong>${icon} Working Hours Overlap:</strong>
                 <div style="margin: 8px 0;">
-                    <strong>Período:</strong> ${overlap.overlapPeriod}
-                    <br><strong>Duração:</strong> ${overlap.overlapDuration}
+                    <strong>Period:</strong> ${overlap.overlapPeriod}
+                    <br><strong>Duration:</strong> ${overlap.overlapDuration}
                 </div>
         `;
         
         if (overlap.participantLocalTimes && overlap.participantLocalTimes.length > 0) {
-            html += `<div style="margin-top: 10px;"><strong>Horários locais:</strong></div>`;
+            html += `<div style="margin-top: 10px;"><strong>Local times:</strong></div>`;
             overlap.participantLocalTimes.forEach(time => {
                 html += `<div style="margin: 4px 0; padding: 4px; background: rgba(255,255,255,0.7); border-radius: 3px;">• ${time}</div>`;
             });
@@ -920,20 +920,32 @@ function displayConflictAnalysis(analysis) {
     }
     
     if (analysis.conflictingMeetings && analysis.conflictingMeetings.length > 0) {
+        const workingHoursConflicts = analysis.conflictingMeetings.filter(m => m.title.includes('Working Hours Conflict'));
+        const meetingConflicts = analysis.conflictingMeetings.filter(m => !m.title.includes('Working Hours Conflict'));
+        
+        let sectionTitle = '';
+        if (workingHoursConflicts.length > 0 && meetingConflicts.length > 0) {
+            sectionTitle = `⚠️ Conflicts Found (${analysis.conflictingMeetings.length}):`;
+        } else if (workingHoursConflicts.length > 0) {
+            sectionTitle = `⚠️ Working Hours Conflicts (${workingHoursConflicts.length}):`;
+        } else {
+            sectionTitle = `⚠️ Meeting Conflicts (${meetingConflicts.length}):`;
+        }
+        
         html += `
             <div style="background: #fff3cd; padding: 15px; border-radius: 8px; margin-bottom: 15px;">
-                <strong>⚠️ Reuniões em Conflito (${analysis.conflictingMeetings.length}):</strong>
+                <strong>${sectionTitle}</strong>
         `;
         
         analysis.conflictingMeetings.forEach(meeting => {
-            const startTime = new Date(meeting.startTime).toLocaleString('pt-BR');
-            const endTime = new Date(meeting.endTime).toLocaleString('pt-BR');
+            const startTime = new Date(meeting.startTime).toLocaleString('en-US');
+            const endTime = new Date(meeting.endTime).toLocaleString('en-US');
             
             html += `
                 <div style="margin: 8px 0; padding: 8px; background: white; border-radius: 4px; border-left: 4px solid #ffc107;">
                     <strong>${meeting.title}</strong>
-                    <br>• Horário: ${startTime} - ${endTime}
-                    <br>• Participantes em conflito: ${meeting.conflictingParticipants.join(', ')}
+                    <br>• Time: ${startTime} - ${endTime}
+                    <br>• Conflicting participants: ${meeting.conflictingParticipants.join(', ')}
                 </div>
             `;
         });
@@ -944,20 +956,20 @@ function displayConflictAnalysis(analysis) {
     if (analysis.suggestedTimeSlots && analysis.suggestedTimeSlots.length > 0) {
         html += `
             <div style="background: #d1ecf1; padding: 15px; border-radius: 8px; margin-bottom: 15px;">
-                <strong>🎯 Horários Sugeridos (${analysis.suggestedTimeSlots.length}):</strong>
+                <strong>🎯 Suggested Time Slots (${analysis.suggestedTimeSlots.length}):</strong>
         `;
         
         analysis.suggestedTimeSlots.forEach((slot, index) => {
             html += `
                 <div style="margin: 10px 0; padding: 12px; background: white; border-radius: 4px; border-left: 4px solid #17a2b8;">
                     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
-                        <strong>Opção ${index + 1}: ${slot.utcTimeRange}</strong>
+                        <strong>Option ${index + 1}: ${slot.utcTimeRange}</strong>
                         <span style="background: #17a2b8; color: white; padding: 2px 8px; border-radius: 12px; font-size: 12px;">${slot.recommendation}</span>
                     </div>
             `;
             
             if (slot.participantLocalTimes && slot.participantLocalTimes.length > 0) {
-                html += `<div style="margin-top: 8px;"><strong>Horários locais:</strong></div>`;
+                html += `<div style="margin-top: 8px;"><strong>Local times:</strong></div>`;
                 slot.participantLocalTimes.forEach(time => {
                     html += `<div style="margin: 2px 0;">• ${time.name} (${time.timeZone}): ${time.localTimeRange}</div>`;
                 });
@@ -976,7 +988,7 @@ function displayConflictAnalysis(analysis) {
 function showMeetingDetails(meetingId) {
     const meeting = currentMeetings.find(m => m.id === meetingId);
     if (!meeting) {
-        alert('Reunião não encontrada');
+        alert('Meeting not found');
         return;
     }
     
@@ -1002,34 +1014,34 @@ function showMeetingDetails(meetingId) {
             </ul>
         `;
     } else {
-        participantsHtml = '<p class="meeting-detail-value">Nenhum participante</p>';
+        participantsHtml = '<p class="meeting-detail-value">No participants</p>';
     }
     
     modalBody.innerHTML = `
         <div class="meeting-detail-item">
-            <span class="meeting-detail-label">📝 Nome da Reunião</span>
+            <span class="meeting-detail-label">📝 Meeting Name</span>
             <div class="meeting-detail-value">${meeting.title}</div>
         </div>
         
         <div class="meeting-detail-item">
-            <span class="meeting-detail-label">🕐 Horário de Início (UTC)</span>
+            <span class="meeting-detail-label">🕐 Start Time (UTC)</span>
             <div class="meeting-detail-value">${startTimeStr}</div>
         </div>
         
         <div class="meeting-detail-item">
-            <span class="meeting-detail-label">🕑 Horário de Término (UTC)</span>
+            <span class="meeting-detail-label">🕑 End Time (UTC)</span>
             <div class="meeting-detail-value">${endTimeStr}</div>
         </div>
         
         <div class="meeting-detail-item">
-            <span class="meeting-detail-label">👥 Participantes</span>
+                            <span class="meeting-detail-label">👥 Participants</span>
             <div class="meeting-detail-value">
                 ${participantsHtml}
             </div>
         </div>
         
         <div class="meeting-detail-item">
-            <span class="meeting-detail-label">🆔 ID da Reunião</span>
+            <span class="meeting-detail-label">🆔 Meeting ID</span>
             <div class="meeting-detail-value" style="font-family: monospace; font-size: 12px;">${meeting.id}</div>
         </div>
     `;
@@ -1046,11 +1058,11 @@ function closeMeetingModal() {
 
 async function deleteMeetingFromModal() {
     if (!selectedMeeting) {
-        alert('Nenhuma reunião selecionada');
+        alert('No meeting selected');
         return;
     }
     
-    if (!confirm(`Tem certeza que deseja excluir a reunião "${selectedMeeting.title}"?`)) {
+    if (!confirm(`Are you sure you want to delete the meeting "${selectedMeeting.title}"?`)) {
         return;
     }
     
@@ -1062,25 +1074,25 @@ async function deleteMeetingFromModal() {
         if (result.status === 204) {
             currentMeetings = currentMeetings.filter(m => m.id !== selectedMeeting.id);
             closeMeetingModal();
-            alert(`✅ Reunião "${meetingTitle}" excluída com sucesso!`);
+            alert(`✅ Meeting "${meetingTitle}" deleted successfully!`);
             
-            logRequest(`Reunião "${meetingTitle}" excluída com sucesso`, null);
+            logRequest(`Meeting "${meetingTitle}" deleted successfully`, null);
             
             try {
                 await loadCalendar();
                 updateDashboardStats();
             } catch (updateError) {
-                console.warn('Erro ao atualizar interface após exclusão (não afeta a exclusão):', updateError);
+                console.warn('Error updating interface after deletion (does not affect deletion):', updateError);
             }
             
         } else {
-            throw new Error(`Erro ${result.status}: ${result.data?.message || 'Falha ao excluir reunião'}`);
+            throw new Error(`Error ${result.status}: ${result.data?.message || 'Failed to delete meeting'}`);
         }
         
     } catch (error) {
-        console.error('Erro ao excluir reunião:', error);
-        alert(`❌ Erro ao excluir reunião: ${error.message}`);
-        logError('Erro ao excluir reunião: ' + error.message);
+        console.error('Error deleting meeting:', error);
+        alert(`❌ Error deleting meeting: ${error.message}`);
+        logError('Error deleting meeting: ' + error.message);
     }
 }
 
