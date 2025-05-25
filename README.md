@@ -148,23 +148,26 @@ dotnet test
 ```
 
 ### Test Coverage
-- Unit tests for all core scheduling logic
-- Integration tests for API endpoints
-- Repository tests for data access
-- Performance tests for conflict detection efficiency
 
-### Test Categories
-- Scheduling without conflicts
-- Simple conflict detection
-- Multi-timezone scenarios
-- Midnight-crossing timezones
-- Intelligent suggestion algorithms
-- Working hours overlap analysis
-- Input validation and error handling
+**Core Functionality**
+- Scheduling logic with comprehensive conflict detection
+- Multi-timezone support including edge cases
+- Repository pattern implementation
+- Performance validation under load
 
-## Performance Considerations
+**API Testing**
+- Complete endpoint coverage
+- Error handling scenarios
+- Integration with database layer
 
-- Optimized database queries for conflict detection
-- Efficient time range calculations
-- Indexed database fields for fast lookups
-- Tested with thousands of meetings per user
+**Specialized Scenarios**
+- Cross-timezone meeting coordination
+- Midnight boundary calculations
+- Intelligent scheduling suggestions
+- Business hours overlap analysis
+- Input validation and edge cases
+
+**Performance Benchmarks**
+- Optimized for handling thousands of meetings
+- Efficient database queries with proper indexing
+- Fast conflict detection algorithms
