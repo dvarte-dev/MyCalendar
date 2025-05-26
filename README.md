@@ -151,7 +151,7 @@ POST /api/meetings/schedule
 ```json
 {
   "isSuccess": false,
-  "message": "Conflito de horário detectado",
+  "message": "Time conflict detected for one or more participants.",
   "suggestedTimeSlots": [
     {
       "startTime": "2024-01-15T15:00:00Z",
