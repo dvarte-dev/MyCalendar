@@ -1074,7 +1074,7 @@ async function deleteMeetingFromModal() {
         if (result.status === 204) {
             currentMeetings = currentMeetings.filter(m => m.id !== selectedMeeting.id);
             closeMeetingModal();
-            alert(`<i class="fas fa-check-circle" style="color: green;"></i> Meeting "${meetingTitle}" deleted successfully!`);
+            alert(`✅ Meeting "${meetingTitle}" deleted successfully!`);
             
             logRequest(`Meeting "${meetingTitle}" deleted successfully`, null);
             
@@ -1091,7 +1091,7 @@ async function deleteMeetingFromModal() {
         
     } catch (error) {
         console.error('Error deleting meeting:', error);
-        alert(`<i class="fas fa-times-circle" style="color: red;"></i> Error deleting meeting: ${error.message}`);
+        alert(`❌ Error deleting meeting: ${error.message}`);
         logError('Error deleting meeting: ' + error.message);
     }
 }

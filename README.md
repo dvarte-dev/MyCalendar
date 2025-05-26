@@ -82,12 +82,21 @@ The application will be available at:
 
 The project includes a comprehensive web-based demo interface that showcases all system capabilities:
 
+### 📹 Video Demonstration
+
+> **Why Visual Demo?** Complex scheduling APIs with timezone conflicts and calendar data are nearly impossible to understand through JSON responses alone. This visual interface transforms complex API data into clear, intuitive insights.  
+>  
+> **What you'll see:** Direct comparison between raw JSON endpoints and visual representations, showing how calendar conflicts, timezone overlaps, and meeting patterns become immediately comprehensible through proper visualization.  
+>  
+> **Access:** Run the application and navigate to `/demo` to experience the interactive interface that makes this API's capabilities truly visible.
+
+[![Watch the demo on YouTube](https://img.youtube.com/vi/dWiapo-rAY0/maxresdefault.jpg)](https://youtu.be/dWiapo-rAY0)
+
 ### Demo Features
 - **👤 User Management**: Create and manage users with different timezones
 - **📅 Meeting Scheduling**: Schedule meetings with real-time conflict detection
 - **🔍 Conflict Analysis**: Analyze working hours overlap between participants
 - **📊 Calendar View**: Visual calendar with meeting display and timezone handling
-- **⚡ Real-time Testing**: Interactive API testing with immediate feedback
 
 ### Demo Highlights
 - **Global Timezone Support**: Test with users from Japan, Brazil, USA, Europe, and more
@@ -198,3 +207,8 @@ dotnet test
 - Optimized for handling thousands of meetings
 - Efficient database queries with proper indexing
 - Fast conflict detection algorithms
+
+
+<p align="center">
+  Built by <a href="https://dvarte.dev">dvarte.dev</a>
+</p>
